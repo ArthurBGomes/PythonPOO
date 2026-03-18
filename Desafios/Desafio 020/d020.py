@@ -1,19 +1,26 @@
+from rich import print
+from rich.panel import Panel
 class Gamer:
-    def __init__(self, nome, nick, jogosfavoritos=None):
+    def __init__(self, nome, nick,):
         self.nome = nome
         self.nick = nick
-        self.favoritos = jogosfavoritos if jogosfavoritos is not None else []
+        self.favoritos = list()
 
     def addfavoritos(self, jogo):
         self.favoritos.append(jogo)
+        self.favoritos = sorted(self.favoritos,key=str.lower)
 
     def ficha(self):
-        jogos_ordenados = sorted(self.favoritos)
-        print(f"Nome: {self.nome}")
-        print(f"Nick: {self.nick}")
-        print(f"Jogos favoritos: {', '.join(jogos_ordenados)}")
+        conteudo = f"Nome:[black on blue] {self.nome} [/]"
+        conteudo += f"\nJogos favoritos:"
+        for num,game in enumerate(self.favoritos):
+            conteudo += f"\n:video_game:[blue]{game}[/]"
+        panel = Panel(conteudo,title=f"Jogador: <{self.nick}>")
+        print(panel)
 
-g1 = Gamer("Arthur", "Pedok", ["Minecraft", "Valorant"])
+g1 = Gamer("Arthur", "Pedok",)
+g1.addfavoritos("Minecraft")
+g1.addfavoritos("Valorant")
 g1.addfavoritos("League of Legends")
 g1.ficha()
 g2 = Gamer("Léo", "LeoGamer")
